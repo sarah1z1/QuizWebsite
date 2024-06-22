@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz Complete{% endblock title %}
+
+{% block body %}
+
+{% if page == 'complete' %}
+
+<div class="container d-flex flex-column align-items-center vh-100 mt-5">
+    <h1 class="text-center">"{{quiz.title|capfirst}}" QUIZ COMPLETED</h1>
+    <h2 class="text-center">Your score is {{score.score}}/{{total_questions}}</h2>
+    {% comment %} <a href="{% url 'quiz' quizId=quiz.id order=1 %}" class="btn btn-light btn-block my-5">Retake Quiz</a>  {% endcomment %}
+
+</div>
+
+{% else %}
+
+<div class="container d-flex flex-column align-items-center vh-100 mt-5">
+    
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h1 class="card-title text-center">"{{quiz.title|capfirst}}"</h1>
+            <h3 class="card-text text-center mt-5">{{quiz.description|capfirst}}</h3>
+            <div class="d-grid gap-2">
+                <a href="{% url 'quiz' quizId=quiz.id order=1 %}" class="btn btn-dark mt-5">Start Quiz</a>
+            </div>
+        </div>
+    </div>
+    
+    {% if request.user.is_teacher %}
+
+    <a href="{% url 'add_questions' quizId=quiz.id %}" class="btn btn-light mt-5">Add questions</a>
+
+    {% endif %}
+
+    
+    {% for question in questions %}
+    {{question}}        
+    {% endfor %}
+        
+
+    {% if messages %}
+    <ul class="messages bg-danger mt-5">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+</div>
+
+
+{% endif %}
+
+{% endblock body %}

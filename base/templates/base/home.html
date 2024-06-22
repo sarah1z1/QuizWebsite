@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock title %}
+
+{% block body %}
+
+{% if quizes.count == 0 %}
+
+
+    <div class="container quiz-container"> 
+        <h1 class="text-center py-3 mt-5">No Quizes Available.</h1> 
+        <h2 class="text-center py-3">Coming soon!</h2> 
+        {% if request.user.is_teacher %}
+        <a href="{% url 'create_quiz' %}" class=" btn btn-light text-center py-3">Add a quiz</a> 
+        {% endif %}
+    </div>
+        
+
+{% else %}
+
+    <div class="container quiz-container"> 
+        {% if request.user.is_teacher %}
+        <a href="{% url 'create_quiz' %}" class=" btn btn-light mt-5">Add a quiz</a> 
+        {% endif %}
+        <h1 class="text-center py-3">Select a quiz:</h1> 
+        <div class="row justify-content-center">
+        {% for quiz in quizes %}
+            <div class="col-lg-5 mx-2">
+                <div class="card my-2">
+                    <div class="card-body">
+                        <h1 class="card-title">{{quiz.title}}</h1>
+                        <div class="text-end">
+                            <a href="{% url 'quiz_info' quizId=quiz.id %}" class="btn btn-dark">View Quiz</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
+{% endif %}
+
+
+{% endblock body %}

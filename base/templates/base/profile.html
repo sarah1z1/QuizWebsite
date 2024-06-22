@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock title %}
+
+{% block body %}
+
+{% if score_records.count == 0 %}
+
+<div class="container quiz-container"> 
+    <h1 class="text-center py-3 mt-5">No Score Records.</h1> 
+</div>
+
+{% else %}
+
+<div class="d-flex justify-content-center">
+    <div class="row mt-5">
+        <h1 class="text-center">My Scores</h1>
+    {% for score_record in score_records %}
+        <div class="col-lg-12 d-flex justify-content-center mt-5">
+            <div class="card mb-4" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{score_record.quiz}}</h5>
+                    <p class="card-text">Score: {{score_record.score}}/{{score_record.total_questions}}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+{% endif %}
+    
+    
+
+{% endblock %}

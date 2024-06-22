@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}{{quiz.title}} quiz{% endblock title %}
+
+{% block body %}
+
+{% if total_questions == 0 %}
+<div class="container d-flex flex-column align-items-center vh-100 mt-5">
+    <h1 class="text-center">No Questions.</h1>
+</div>
+
+{% else %}
+
+<div class="container d-flex flex-column align-items-center vh-100">
+    <div class="card w-75 mt-5">
+        <div class="card-body text-center">
+            <h3 class="card-title">Question {{order}} out of {{total_questions}}</h3>
+            <h1 class="mt-5">{{ question.text }}</h1>
+            <form method="post" class="p-5">
+                {% csrf_token %}
+                {% for answer in question.answers.all %}
+                    <div class="form-check mb-3">
+                        <input type="radio" class="btn-check btn-light form-check-input" name="answer" id="answer{{ forloop.counter }}" autocomplete="off" value="{{ answer.id }}" >
+                        <label class="btn btn-dark form-check-label" for="answer{{ forloop.counter }}">{{answer.text}}</label>
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+            </form>
+            {% if messages %}
+            <ul class="messages bg-danger">
+                {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+{% endblock body %}
